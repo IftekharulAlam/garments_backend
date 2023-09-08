@@ -25,7 +25,7 @@ SECRET_KEY = "django-insecure-w*ake$r_)%#*-@mxtp#s+@_y@c#b_i^8)$_%(+swy*m6x^r@hb
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -74,9 +74,13 @@ WSGI_APPLICATION = "garments_backend.wsgi.application"
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'garments',
+        'HOST': '192.168.0.100',
+        'PORT': '3306',
+        'USER': 'iftekharulalam',
+        'PASSWORD': '01521439838As'
     }
 }
 
