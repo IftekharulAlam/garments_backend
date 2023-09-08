@@ -37,71 +37,35 @@ def login(request):
         name = request.POST.get("name", False)
         password = request.POST.get("password", False)
         userType = request.POST.get("userType", False)
-        if userType == "HomeOwner":
-            with connection.cursor() as cursor_1:
-                cursor_1.execute(
-                    "select Name, Address, Phone, profilePic, Password from homeowner where name='"+str(name) + "'")
-                row1 = cursor_1.fetchone()
-            if row1 == None:
-                data = {"message": "Wrong"}
-                result = []
-                result.append(data)
-                json_data = json.dumps(result)
-                return HttpResponse(json_data, content_type="application/json")
-            else:
-                if name == row1[0] and password == row1[4]:
-                    # data = {"message": "Success"}
-                    result = []
-                    keys = ('name', 'address', 'phone',
-                            'profilePic', 'password')
-
-                    im = row1[3]
-                    base64_string = im.decode('utf-8')
-                    y = list(row1)
-                    y[3] = base64_string
-                    row1 = tuple(y)
-                    result.append(dict(zip(keys, row1)))
-                    json_data = json.dumps(result)
-                    return HttpResponse(json_data, content_type="application/json")
-                else:
-                    data = {"message": "Wrong"}
-                    result = []
-                    result.append(data)
-                    json_data = json.dumps(result)
-                    return HttpResponse(json_data, content_type="application/json")
-
+        with connection.cursor() as cursor_1:
+            cursor_1.execute(
+                "select Name, Address, Phone, Password from user_table where name='"+str(name) + "'")
+            row1 = cursor_1.fetchone()
+        if row1 == None:
+            data = {"message": "Wrong"}
+            result = []
+            result.append(data)
+            json_data = json.dumps(result)
+            return HttpResponse(json_data, content_type="application/json")
         else:
-            with connection.cursor() as cursor_1:
-                cursor_1.execute(
-                    "select Name, Address, Phone, profilePic, workingHour, Password from worker_table where name='"+str(name)+"'")
-                row1 = cursor_1.fetchone()
-                # print(row1)
+            if name == row1[0] and password == row1[3]:
+                # data = {"message": "Success"}
+                result = []
+                keys = ('name', 'address', 'phone',
+                        'password')
 
-            if row1 == None:
+                # im = row1[3]
+                # base64_string = im.decode('utf-8')
+                # y = list(row1)
+                # y[3] = base64_string
+                #row1 = tuple(y)
+                result.append(dict(zip(keys, row1)))
+                json_data = json.dumps(result)
+                return HttpResponse(json_data, content_type="application/json")
+            else:
                 data = {"message": "Wrong"}
                 result = []
                 result.append(data)
                 json_data = json.dumps(result)
                 return HttpResponse(json_data, content_type="application/json")
-            else:
-                if name == row1[0] and password == row1[5]:
-                    # data = {"message": "Success"}
-                    result = []
-                    keys = ('name', 'address', 'phone',
-                            'profilePic', 'workingHour', 'Password')
-                    im = row1[3]
-                    base64_string = im.decode('utf-8')
-                    y = list(row1)
-                    y[3] = base64_string
-                    row1 = tuple(y)
-                    result.append(dict(zip(keys, row1)))
-                    json_data = json.dumps(result)
-                    return HttpResponse(json_data, content_type="application/json")
-                else:
-                    data = {"message": "Wrong"}
-                    result = []
-                    result.append(data)
-                    json_data = json.dumps(result)
-                    return HttpResponse(json_data, content_type="application/json")
-
     return HttpResponse("Hello, world. You're at the polls index.")
