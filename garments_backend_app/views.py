@@ -53,12 +53,6 @@ def login(request):
                 result = []
                 keys = ('name', 'address', 'phone',
                         'password')
-
-                # im = row1[3]
-                # base64_string = im.decode('utf-8')
-                # y = list(row1)
-                # y[3] = base64_string
-                #row1 = tuple(y)
                 result.append(dict(zip(keys, row1)))
                 json_data = json.dumps(result)
                 return HttpResponse(json_data, content_type="application/json")
@@ -68,4 +62,21 @@ def login(request):
                 result.append(data)
                 json_data = json.dumps(result)
                 return HttpResponse(json_data, content_type="application/json")
+    return HttpResponse("Hello, world. You're at the polls index.")
+
+
+@csrf_exempt
+def createProduct(request):
+    productAvailable = "0"
+    if request.method == 'POST':
+        productModelNo = request.POST.get("productModelNo", False)
+        productDetails = request.POST.get("productDetails", False)
+        productRate = request.POST.get("productRate", False)
+        productSize = request.POST.get("productSize", False)
+        # productAvailable = request.POST.get("productAvailable", False)
+
+        with connection.cursor() as cursor_1:
+            cursor_1.execute("INSERT INTO product_table(productModelNo,productDetails,productRate,productSize,productAvailable) VALUES ('"+str(
+                productModelNo) + "','"+str(productDetails) + "','"+str(productRate) + "','"+str(productSize) + "','"+str(productAvailable) + "')")
+            connection.commit()
     return HttpResponse("Hello, world. You're at the polls index.")
