@@ -20,6 +20,7 @@ urlpatterns = [
     # path('CreatePartyProfile', views.CreatePartyProfile, name='CreatePartyProfile'),
     # path('UpdatePartyProfile', views.UpdatePartyProfile, name='UpdatePartyProfile'),
     path('createProduct', views.createProduct, name='createProduct'),
+    path('getProductsList', views.getProductsList, name='getProductsList'),
 
 
 
