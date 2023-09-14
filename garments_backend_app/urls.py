@@ -18,6 +18,9 @@ urlpatterns = [
 
     path('createProduct', views.createProduct, name='createProduct'),
     path('getProductsList', views.getProductsList, name='getProductsList'),
+    path('createParty', views.createParty, name='createParty'),
+    path('getPartyList', views.getPartyList, name='getPartyList'),
+    path('getPartyKhatiyanDetails', views.getPartyKhatiyanDetails, name='getPartyKhatiyanDetails'),
 
 
 
