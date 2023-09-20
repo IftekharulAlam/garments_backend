@@ -26,6 +26,45 @@ def createKhatiyan(request):
 
 
 @csrf_exempt
+def createDailysheetJoma(request):
+    if request.method == 'POST':
+        datetime = request.POST.get("datetime", False)
+        listOFItem = request.POST.get("listOFItem", False)
+        listOFAmount = request.POST.get("listOFAmount", False)
+        with connection.cursor() as cursor_1:
+            cursor_1.execute("INSERT INTO dailySheetjoma_table(date,item,amount) VALUES ('"+str(
+                datetime) + "','"+str(listOFItem) + "','"+str(listOFAmount) + "')")
+            connection.commit()
+    return HttpResponse("Hello, world. You're at the polls index.")
+@csrf_exempt
+def createDailysheetKhoroch(request):
+    if request.method == 'POST':
+        datetime = request.POST.get("datetime", False)
+        listOFItem = request.POST.get("listOFItem", False)
+        listOFAmount = request.POST.get("listOFAmount", False)
+        with connection.cursor() as cursor_1:
+            cursor_1.execute("INSERT INTO dailySheetKhoroch_table(date,item,amount) VALUES ('"+str(
+                datetime) + "','"+str(listOFItem) + "','"+str(listOFAmount) + "')")
+            connection.commit()
+    return HttpResponse("Hello, world. You're at the polls index.")
+
+
+@csrf_exempt
+def dailysheetJomaKhorochList(request):
+    if request.method == 'GET':
+        with connection.cursor() as cursor_1:
+            cursor_1.execute(
+                "select date, item from dailySheetKhoroch_table")
+            row1 = cursor_1.fetchall()
+            result = []
+            keys = ('date', 'item')
+            for row in row1:
+                result.append(dict(zip(keys, row)))
+            json_data = json.dumps(result)
+            print(json_data)
+
+            return HttpResponse(json_data, content_type="application/json")
+@csrf_exempt
 def getKhatiyanList(request):
     if request.method == 'GET':
         with connection.cursor() as cursor_1:
@@ -256,15 +295,47 @@ def createProduct(request):
 
 
 @csrf_exempt
+def addProduct(request):
+    if request.method == 'POST':
+        productModelNo = request.POST.get("productModelNo", False)
+        productionDate = request.POST.get("productionDate", False)
+        productSize = request.POST.get("productSize", False)
+        productQuantity = request.POST.get("productQuantity", False)
+
+        with connection.cursor() as cursor_1:
+            cursor_1.execute("INSERT INTO product_stock(productModelNo,productionDate,productSize,productQuantity) VALUES ('"+str(
+                productModelNo) + "','"+str(productionDate) + "','"+str(productSize) + "','"+str(productQuantity) + "')")
+            connection.commit()
+    return HttpResponse("Hello, world. You're at the polls index.")
+
+
+@csrf_exempt
 def getProductsList(request):
     if request.method == 'GET':
         with connection.cursor() as cursor_1:
             cursor_1.execute(
-                "select productModelNo, productDetails, productRate, productSize, productAvailable from product_table")
+                "select productModelNo, productDetails, productRate, productSize, productAvailable from product_table GROUP BY productModelNo")
             row1 = cursor_1.fetchall()
             result = []
             keys = ('productModelNo', 'productDetails',
                     'productRate', 'productSize', 'productAvailable')
+            for row in row1:
+                result.append(dict(zip(keys, row)))
+            json_data = json.dumps(result)
+            print(json_data)
+            return HttpResponse(json_data, content_type="application/json")
+
+
+@csrf_exempt
+def getProductsSizeList(request):
+    productModelNo = request.POST.get("productModelNo", False)
+    if request.method == 'POST':
+        with connection.cursor() as cursor_1:
+            cursor_1.execute(
+                "select productModelNo, productSize from product_table where productModelNo='"+str(productModelNo)+"' GROUP BY productSize")
+            row1 = cursor_1.fetchall()
+            result = []
+            keys = ('productModelNo', 'productSize')
             for row in row1:
                 result.append(dict(zip(keys, row)))
             json_data = json.dumps(result)
