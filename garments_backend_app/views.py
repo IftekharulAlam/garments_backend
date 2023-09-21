@@ -36,6 +36,8 @@ def createDailysheetJoma(request):
                 datetime) + "','"+str(listOFItem) + "','"+str(listOFAmount) + "')")
             connection.commit()
     return HttpResponse("Hello, world. You're at the polls index.")
+
+
 @csrf_exempt
 def createDailysheetKhoroch(request):
     if request.method == 'POST':
@@ -64,6 +66,8 @@ def dailysheetJomaKhorochList(request):
             print(json_data)
 
             return HttpResponse(json_data, content_type="application/json")
+
+
 @csrf_exempt
 def getKhatiyanList(request):
     if request.method == 'GET':
@@ -285,11 +289,10 @@ def createProduct(request):
         productModelNo = request.POST.get("productModelNo", False)
         productDetails = request.POST.get("productDetails", False)
         productRate = request.POST.get("productRate", False)
-        productSize = request.POST.get("productSize", False)
-
+        
         with connection.cursor() as cursor_1:
-            cursor_1.execute("INSERT INTO product_table(productModelNo,productDetails,productRate,productSize,productAvailable) VALUES ('"+str(
-                productModelNo) + "','"+str(productDetails) + "','"+str(productRate) + "','"+str(productSize) + "','"+str(productAvailable) + "')")
+            cursor_1.execute("INSERT INTO product_table(productModelNo,productDetails,productRate,productAvailable) VALUES ('"+str(
+                productModelNo) + "','"+str(productDetails) + "','"+str(productRate) + "','"+str(productAvailable) + "')")
             connection.commit()
     return HttpResponse("Hello, world. You're at the polls index.")
 
@@ -314,11 +317,11 @@ def getProductsList(request):
     if request.method == 'GET':
         with connection.cursor() as cursor_1:
             cursor_1.execute(
-                "select productModelNo, productDetails, productRate, productSize, productAvailable from product_table GROUP BY productModelNo")
+                "select productModelNo, productDetails, productRate, productAvailable from product_table GROUP BY productModelNo")
             row1 = cursor_1.fetchall()
             result = []
             keys = ('productModelNo', 'productDetails',
-                    'productRate', 'productSize', 'productAvailable')
+                    'productRate', 'productAvailable')
             for row in row1:
                 result.append(dict(zip(keys, row)))
             json_data = json.dumps(result)
@@ -338,6 +341,37 @@ def getProductsSizeList(request):
             keys = ('productModelNo', 'productSize')
             for row in row1:
                 result.append(dict(zip(keys, row)))
+            json_data = json.dumps(result)
+            print(json_data)
+            return HttpResponse(json_data, content_type="application/json")
+
+@csrf_exempt
+def getProductProductionDetails(request):
+    productModelNo = request.POST.get("productModelNo", False)
+    if request.method == 'POST':
+        with connection.cursor() as cursor_1:
+            cursor_1.execute(
+                "select productionDate, productSize, productQuantity from product_stock where productModelNo='"+str(productModelNo)+"'")
+            row1 = cursor_1.fetchall()
+            result = []
+            keys = ('productionDate', 'productSize', 'productQuantity')
+            for row in row1:
+                result.append(dict(zip(keys, row)))
+            json_data = json.dumps(result)
+            print(json_data)
+            return HttpResponse(json_data, content_type="application/json")
+        
+@csrf_exempt
+def getProductDetails(request):
+    productModelNo = request.POST.get("productModelNo", False)
+    if request.method == 'POST':
+        with connection.cursor() as cursor_1:
+            cursor_1.execute(
+                "select productModelNo, productDetails, productRate, productAvailable from product_table where productModelNo='"+str(productModelNo)+"'")
+            row1 = cursor_1.fetchone()
+            result = []
+            keys = ('productModelNo','productDetails', 'productRate', 'productAvailable')
+            result.append(dict(zip(keys, row1)))
             json_data = json.dumps(result)
             print(json_data)
             return HttpResponse(json_data, content_type="application/json")
