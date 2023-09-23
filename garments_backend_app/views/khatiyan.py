@@ -9,6 +9,7 @@ import json
 from django.http import HttpResponse, JsonResponse
 from datetime import date
 
+
 @csrf_exempt
 def createKhatiyan(request):
     Date = str(date.today())
@@ -24,6 +25,7 @@ def createKhatiyan(request):
     return HttpResponse("Hello, world. You're at the polls index.")
 
 
+
 @csrf_exempt
 def getKhatiyanList(request):
     if request.method == 'GET':
@@ -37,8 +39,6 @@ def getKhatiyanList(request):
             for row in row1:
                 result.append(dict(zip(keys, row)))
             json_data = json.dumps(result)
-            print(json_data)
-
             return HttpResponse(json_data, content_type="application/json")
 
 
@@ -55,6 +55,7 @@ def getKhatiyanDetails(request):
             for row in row1:
                 result.append(dict(zip(keys, row)))
             json_data = json.dumps(result)
-            print(json_data)
 
             return HttpResponse(json_data, content_type="application/json")
+
+

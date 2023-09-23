@@ -1,46 +1,50 @@
 from django.urls import path
+from .views import *
 
-from . import views
 
 urlpatterns = [
 
-    path('registerUser', views.registerUser, name='registerUser'),
-    path('login', views.login, name='login'),
+    path('registerUser', loginRegister.registerUser, name='registerUser'),
+    path('login', loginRegister.login, name='login'),
 
-    path('createKhatiyan', views.createKhatiyan, name='createKhatiyan'),
+    path('createKhatiyan', khatiyan.createKhatiyan, name='createKhatiyan'),
 
-    path('getKhatiyanList', views.getKhatiyanList, name='getKhatiyanList'),
-    path('getKhatiyanDetails', views.getKhatiyanDetails, name='getKhatiyanDetails'),
+    path('getKhatiyanList', khatiyan.getKhatiyanList, name='getKhatiyanList'),
+    path('getKhatiyanDetails', khatiyan.getKhatiyanDetails, name='getKhatiyanDetails'),
 
 
-    path('getStaffKhatiyanList', views.getStaffKhatiyanList,
+    path('getStaffKhatiyanList', staffKhatiyan.getStaffKhatiyanList,
          name='getStaffKhatiyanList'),
-    path('getKhatiyanDetailsStaff', views.getKhatiyanDetailsStaff,
+    path('getKhatiyanDetailsStaff', staffKhatiyan.getKhatiyanDetailsStaff,
          name='getKhatiyanDetailsStaff'),
-    path('getProfileDetailsStaff', views.getProfileDetailsStaff,
+    path('getProfileDetailsStaff', staffProfile.getProfileDetailsStaff,
          name='getProfileDetailsStaff'),
 
-    path('createProduct', views.createProduct, name='createProduct'),
-    path('addProduct', views.addProduct, name='addProduct'),
-    path('getProductsList', views.getProductsList, name='getProductsList'),
-    path('getProductsSizeList', views.getProductsSizeList,
+    path('createProduct', products.createProduct, name='createProduct'),
+    path('addProduct', products.addProduct, name='addProduct'),
+    path('getProductsList', products.getProductsList, name='getProductsList'),
+    path('getProductsSizeList', products.getProductsSizeList,
          name='getProductsSizeList'),
-    path('getProductProductionDetails', views.getProductProductionDetails,
+    path('getProductProductionDetails', products.getProductProductionDetails,
          name='getProductProductionDetails'),
-    path('getProductsSizeList', views.getProductsSizeList,
+    path('getProductsSizeList', products.getProductsSizeList,
          name='getProductsSizeList'),
-    path('createParty', views.createParty, name='createParty'),
-    path('getPartyList', views.getPartyList, name='getPartyList'),
-    path('getPartyKhatiyanDetails', views.getPartyKhatiyanDetails,
+    path('createParty', partyKhatiyan.createParty, name='createParty'),
+    path('getPartyList', partyProfile.getPartyList, name='getPartyList'),
+    path('getPartyKhatiyanDetails', partyKhatiyan.getPartyKhatiyanDetails,
          name='getPartyKhatiyanDetails'),
-    path('getProductDetails', views.getProductDetails,
+    path('getProductDetails', products.getProductDetails,
          name='getProductDetails'),
 
-    path('createDailysheetJoma', views.createDailysheetJoma,
+    path('createDailysheetJoma', dailySheet.createDailysheetJoma,
          name='createDailysheetJoma'),
-    path('createDailysheetKhoroch', views.createDailysheetKhoroch,
+    path('createDailysheetKhoroch', dailySheet.createDailysheetKhoroch,
          name='createDailysheetKhoroch'),
-    path('dailysheetJomaKhorochList', views.dailysheetJomaKhorochList,
+    path('dailysheetJomaKhorochList', dailySheet.dailysheetJomaKhorochList,
          name='dailysheetJomaKhorochList'),
+
+    path('createBill', bill.createBill,
+         name='createBill'),
+
 
 ]
