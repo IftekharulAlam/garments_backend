@@ -13,11 +13,15 @@ urlpatterns = [
     path('getKhatiyanDetails', khatiyan.getKhatiyanDetails, name='getKhatiyanDetails'),
 
 
-    path('getStaffKhatiyanList', staffKhatiyan.getStaffKhatiyanList,
+    path('getStaffKhatiyanList', staff.getStaffKhatiyanList,
          name='getStaffKhatiyanList'),
-    path('getKhatiyanDetailsStaff', staffKhatiyan.getKhatiyanDetailsStaff,
+         
+    path('getStaffList', staff.getStaffList,
+         name='getStaffList'),
+
+    path('getKhatiyanDetailsStaff', staff.getKhatiyanDetailsStaff,
          name='getKhatiyanDetailsStaff'),
-    path('getProfileDetailsStaff', staffProfile.getProfileDetailsStaff,
+    path('getProfileDetailsStaff', staff.getProfileDetailsStaff,
          name='getProfileDetailsStaff'),
 
     path('createProduct', products.createProduct, name='createProduct'),

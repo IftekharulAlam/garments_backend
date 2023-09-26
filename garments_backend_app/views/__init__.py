@@ -5,8 +5,6 @@ from .khatiyan import *
 from .loginRegister import *
 from .partyKhatiyan import *
 from .products import *
-from .staffAttendence import *
-from .staffKhatiyan import *
 from .voucher import *
-from .staffProfile import *
+from .staff import *
 from .partyProfile import *
