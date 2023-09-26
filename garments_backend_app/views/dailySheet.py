@@ -15,7 +15,7 @@ def createDailysheetJoma(request):
         listOFItem = request.POST.get("listOFItem", False)
         listOFAmount = request.POST.get("listOFAmount", False)
         with connection.cursor() as cursor_1:
-            cursor_1.execute("INSERT INTO dailySheetjoma_table(date,item,amount) VALUES ('"+str(
+            cursor_1.execute("INSERT INTO dailysheetjoma_table(date,item,amount) VALUES ('"+str(
                 datetime) + "','"+str(listOFItem) + "','"+str(listOFAmount) + "')")
             connection.commit()
     return HttpResponse("Hello, world. You're at the polls index.")
@@ -28,7 +28,7 @@ def createDailysheetKhoroch(request):
         listOFItem = request.POST.get("listOFItem", False)
         listOFAmount = request.POST.get("listOFAmount", False)
         with connection.cursor() as cursor_1:
-            cursor_1.execute("INSERT INTO dailySheetKhoroch_table(date,item,amount) VALUES ('"+str(
+            cursor_1.execute("INSERT INTO dailysheetkhoroch_table(date,item,amount) VALUES ('"+str(
                 datetime) + "','"+str(listOFItem) + "','"+str(listOFAmount) + "')")
             connection.commit()
     return HttpResponse("Hello, world. You're at the polls index.")
@@ -39,7 +39,7 @@ def dailysheetJomaKhorochList(request):
     if request.method == 'GET':
         with connection.cursor() as cursor_1:
             cursor_1.execute(
-                "select date, item from dailySheetKhoroch_table")
+                "select date, item from dailysheetkhoroch_table")
             row1 = cursor_1.fetchall()
             result = []
             keys = ('date', 'item')
