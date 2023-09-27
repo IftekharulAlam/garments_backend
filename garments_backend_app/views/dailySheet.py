@@ -8,6 +8,8 @@ import json
 # Create your views here.
 from django.http import HttpResponse, JsonResponse
 from datetime import date
+
+
 @csrf_exempt
 def createDailysheetJoma(request):
     if request.method == 'POST':
@@ -15,7 +17,7 @@ def createDailysheetJoma(request):
         listOFItem = request.POST.get("listOFItem", False)
         listOFAmount = request.POST.get("listOFAmount", False)
         with connection.cursor() as cursor_1:
-            cursor_1.execute("INSERT INTO dailysheetjoma_table(date,item,amount) VALUES ('"+str(
+            cursor_1.execute("INSERT INTO dailysheetjoma_table(date,khatiyanName,amount) VALUES ('"+str(
                 datetime) + "','"+str(listOFItem) + "','"+str(listOFAmount) + "')")
             connection.commit()
     return HttpResponse("Hello, world. You're at the polls index.")
@@ -28,7 +30,7 @@ def createDailysheetKhoroch(request):
         listOFItem = request.POST.get("listOFItem", False)
         listOFAmount = request.POST.get("listOFAmount", False)
         with connection.cursor() as cursor_1:
-            cursor_1.execute("INSERT INTO dailysheetkhoroch_table(date,item,amount) VALUES ('"+str(
+            cursor_1.execute("INSERT INTO dailysheetkhoroch_table(date,khatiyanName,amount) VALUES ('"+str(
                 datetime) + "','"+str(listOFItem) + "','"+str(listOFAmount) + "')")
             connection.commit()
     return HttpResponse("Hello, world. You're at the polls index.")
@@ -39,7 +41,7 @@ def dailysheetJomaKhorochList(request):
     if request.method == 'GET':
         with connection.cursor() as cursor_1:
             cursor_1.execute(
-                "select date, item from dailysheetkhoroch_table")
+                "select date, khatiyanName from dailysheet_total")
             row1 = cursor_1.fetchall()
             result = []
             keys = ('date', 'item')
