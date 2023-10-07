@@ -33,23 +33,32 @@ def addProduct(request):
         productSize = request.POST.get("productSize", False)
         productQuantity = request.POST.get("productQuantity", False)
 
-        with connection.cursor() as cursor_6:
-            cursor_6.execute("INSERT INTO product_stock(productModelNo,productionDate,productSize,productQuantity) VALUES ('"+str(
+        with connection.cursor() as cursor_1:
+            cursor_1.execute("INSERT INTO product_stock(productModelNo,productionDate,productSize,productQuantity) VALUES ('"+str(
                 productModelNo) + "','"+str(productionDate) + "','"+str(productSize) + "','"+str(productQuantity) + "')")
             connection.commit()
 
+        with connection.cursor() as cursor_2:
+            cursor_2.execute("delete from product_available_table")
+            connection.commit()
+
+        with connection.cursor() as cursor_3:
+            cursor_3.execute("INSERT INTO product_available_table SELECT product_table.productModelNo, productSize, sum(product_stock.productQuantity) as productAvailable, productRate from product_table inner join product_stock on product_table.productModelNo = product_stock.productModelNo group by productSize, productModelNo")
+            connection.commit()
+        
+
     return HttpResponse("Hello, world. You're at the polls index.")
 
-
+#  productModelNo, productDetails, productRate, productAvailable
 @csrf_exempt
 def getProductsList(request):
     if request.method == 'GET':
         with connection.cursor() as cursor_1:
             cursor_1.execute(
-                "select productModelNo, productDetails, productRate from product_table")
+                "select productModelNo, productSize, productAvailable, productRate from product_available_table")
             row1 = cursor_1.fetchall()
             result = []
-            keys = ('productModelNo', 'productDetails',
+            keys = ('productModelNo','productSize','productAvailable',
                     'productRate')
             for row in row1:
                 result.append(dict(zip(keys, row)))

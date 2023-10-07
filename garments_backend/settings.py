@@ -77,10 +77,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'garments',
-        'HOST': '192.168.0.100',
+        'HOST': 'localhost',
         'PORT': '3306',
         'USER': 'iftekharulalam',
-        'PASSWORD': '01521439838As'
+        'PASSWORD': '01521439838As@'
     }
 }
 
