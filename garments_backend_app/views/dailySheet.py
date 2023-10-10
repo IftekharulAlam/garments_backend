@@ -17,8 +17,7 @@ def createDailysheetJoma(request):
         listOFItem = request.POST.get("listOFItem", False)
         listOFAmount = request.POST.get("listOFAmount", False)
         with connection.cursor() as cursor_1:
-            cursor_1.execute("INSERT INTO dailysheetjoma_table(date,khatiyanName,amount) VALUES ('"+str(
-                datetime) + "','"+str(listOFItem) + "','"+str(listOFAmount) + "')")
+            cursor_1.execute("INSERT INTO dailysheetjoma_table(date,item,amount) VALUES ('"+str(datetime) + "','"+str(listOFItem) + "','"+str(listOFAmount) + "')")
             connection.commit()
     return HttpResponse("Hello, world. You're at the polls index.")
 
@@ -30,9 +29,11 @@ def createDailysheetKhoroch(request):
         listOFItem = request.POST.get("listOFItem", False)
         listOFAmount = request.POST.get("listOFAmount", False)
         with connection.cursor() as cursor_1:
-            cursor_1.execute("INSERT INTO dailysheetkhoroch_table(date,khatiyanName,amount) VALUES ('"+str(
+            cursor_1.execute("INSERT INTO dailysheetkhoroch_table(date,item,amount) VALUES ('"+str(
                 datetime) + "','"+str(listOFItem) + "','"+str(listOFAmount) + "')")
             connection.commit()
+        
+        
     return HttpResponse("Hello, world. You're at the polls index.")
 
 

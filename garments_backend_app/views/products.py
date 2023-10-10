@@ -55,6 +55,21 @@ def getProductsList(request):
     if request.method == 'GET':
         with connection.cursor() as cursor_1:
             cursor_1.execute(
+                "select productModelNo, productDetails, productRate from product_table")
+            row1 = cursor_1.fetchall()
+            result = []
+            keys = ('productModelNo','productDetails',
+                    'productRate')
+            for row in row1:
+                result.append(dict(zip(keys, row)))
+            json_data = json.dumps(result)
+            return HttpResponse(json_data, content_type="application/json")
+
+@csrf_exempt
+def getProductsAvailableList(request):
+    if request.method == 'GET':
+        with connection.cursor() as cursor_1:
+            cursor_1.execute(
                 "select productModelNo, productSize, productAvailable, productRate from product_available_table")
             row1 = cursor_1.fetchall()
             result = []
