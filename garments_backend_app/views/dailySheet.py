@@ -50,3 +50,35 @@ def dailysheetJomaKhorochList(request):
                 result.append(dict(zip(keys, row)))
             json_data = json.dumps(result)
             return HttpResponse(json_data, content_type="application/json")
+
+@csrf_exempt
+def getJomaDataList(request):
+    if request.method == 'POST':
+        date = request.POST.get("date", False)
+        with connection.cursor() as cursor_1:
+            cursor_1.execute(
+                "select item, amount from dailysheetjoma_table where date='"+str(date)+"'")
+            row1 = cursor_1.fetchall()
+            result = []
+            keys = ('item','amount')
+            for row in row1:
+                result.append(dict(zip(keys, row)))
+            json_data = json.dumps(result)
+            return HttpResponse(json_data, content_type="application/json")
+        
+@csrf_exempt
+def getKhorochDataList(request):
+    if request.method == 'POST':
+        date = request.POST.get("date", False)
+        with connection.cursor() as cursor_1:
+            cursor_1.execute(
+                "select * from dailysheetkhoroch_table where date='"+str(date)+"'")
+            row1 = cursor_1.fetchall()
+            result = []
+            keys = ('date', 'item','Amount')
+            for row in row1:
+                result.append(dict(zip(keys, row)))
+            json_data = json.dumps(result)
+            return HttpResponse(json_data, content_type="application/json")
+
+

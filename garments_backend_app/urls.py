@@ -46,6 +46,12 @@ urlpatterns = [
          name='createDailysheetKhoroch'),
     path('dailysheetJomaKhorochList', dailySheet.dailysheetJomaKhorochList,
          name='dailysheetJomaKhorochList'),
+         
+    path('getJomaDataList', dailySheet.getJomaDataList,
+         name='getJomaDataList'),
+    path('getKhorochDataList', dailySheet.getKhorochDataList,
+         name='getKhorochDataList'),
+
 
     path('createBill', bill.createBill,name='createBill'),
     path('addBillToPartyKhatiyan', bill.addBillToPartyKhatiyan,name='addBillToPartyKhatiyan'),
