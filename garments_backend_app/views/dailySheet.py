@@ -42,7 +42,7 @@ def dailysheetJomaKhorochList(request):
     if request.method == 'GET':
         with connection.cursor() as cursor_1:
             cursor_1.execute(
-                "select date, khatiyanName from dailysheet_total")
+                "select date, item from dailysheetjoma_table group by date")
             row1 = cursor_1.fetchall()
             result = []
             keys = ('date', 'item')
@@ -55,6 +55,7 @@ def dailysheetJomaKhorochList(request):
 def getJomaDataList(request):
     if request.method == 'POST':
         date = request.POST.get("date", False)
+        
         with connection.cursor() as cursor_1:
             cursor_1.execute(
                 "select item, amount from dailysheetjoma_table where date='"+str(date)+"'")
@@ -64,6 +65,7 @@ def getJomaDataList(request):
             for row in row1:
                 result.append(dict(zip(keys, row)))
             json_data = json.dumps(result)
+           
             return HttpResponse(json_data, content_type="application/json")
         
 @csrf_exempt
@@ -72,10 +74,10 @@ def getKhorochDataList(request):
         date = request.POST.get("date", False)
         with connection.cursor() as cursor_1:
             cursor_1.execute(
-                "select * from dailysheetkhoroch_table where date='"+str(date)+"'")
+                "select item, amount from dailysheetkhoroch_table where date='"+str(date)+"'")
             row1 = cursor_1.fetchall()
             result = []
-            keys = ('date', 'item','Amount')
+            keys = ('item','amount')
             for row in row1:
                 result.append(dict(zip(keys, row)))
             json_data = json.dumps(result)

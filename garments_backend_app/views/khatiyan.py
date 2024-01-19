@@ -12,14 +12,16 @@ from datetime import date
 
 @csrf_exempt
 def createKhatiyan(request):
-    Date = str(date.today())
+  
     Joma = 0
     Khoroch = 0
     if request.method == 'POST':
+       
         khatiyanName = request.POST.get("khatiyanName", False)
+        date = request.POST.get("date", False)
         with connection.cursor() as cursor_1:
             cursor_1.execute("INSERT INTO dailysheet_total(date,khatiyanName,totalJoma,totalKhoroch) VALUES ('"+str(
-                Date) + "','"+str(khatiyanName) + "','"+str(Joma) + "','"+str(Khoroch) + "')")
+                date) + "','"+str(khatiyanName) + "','"+str(Joma) + "','"+str(Khoroch) + "')")
             connection.commit()
     return HttpResponse("Hello, world. You're at the polls index.")
 
