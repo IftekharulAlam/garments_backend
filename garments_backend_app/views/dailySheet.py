@@ -13,25 +13,50 @@ from datetime import date
 @csrf_exempt
 def createDailysheetJoma(request):
     if request.method == 'POST':
-        datetime = request.POST.get("datetime", False)
         listOFItem = request.POST.get("listOFItem", False)
-        listOFAmount = request.POST.get("listOFAmount", False)
-        with connection.cursor() as cursor_1:
-            cursor_1.execute("INSERT INTO dailysheetjoma_table(date,item,amount) VALUES ('"+str(datetime) + "','"+str(listOFItem) + "','"+str(listOFAmount) + "')")
-            connection.commit()
+        data = json.loads(listOFItem)
+        type="joma"
+        for d in data:
+            with connection.cursor() as cursor_1:
+                cursor_1.execute("INSERT INTO dailysheet_table(date,item,amount,status,type) VALUES ('"+str(d["date"]) + "','" +str(d["item"]) + "','"+str(d["amount"]) + "','"+str(d["status"]) + "','"+str(type) + "')")
+                connection.commit()
+        
+            with connection.cursor() as cursor_2:
+                cursor_2.execute("select date, khatiyanName,joma, khoroch, balance from khatiyan_full where khatiyanName='" +str(d["item"]) + "' order by date desc limit 1")
+                row1 = cursor_2.fetchone()
+            balance = row1[4]
+            balance += int(d["amount"])
+            khoroch = 0
+            with connection.cursor() as cursor_3:
+                cursor_3.execute("INSERT INTO khatiyan_full(date,khatiyanName,joma,khoroch,balance) VALUES ('"+str(d["date"]) + "','" +str(d["item"]) + "','"+str(d["amount"]) + "','"+str(khoroch) + "','"+str(balance) + "')")
+                connection.commit()
+         
+
     return HttpResponse("Hello, world. You're at the polls index.")
 
 
 @csrf_exempt
 def createDailysheetKhoroch(request):
     if request.method == 'POST':
-        datetime = request.POST.get("datetime", False)
+
+        type="khoroch"
         listOFItem = request.POST.get("listOFItem", False)
-        listOFAmount = request.POST.get("listOFAmount", False)
-        with connection.cursor() as cursor_1:
-            cursor_1.execute("INSERT INTO dailysheetkhoroch_table(date,item,amount) VALUES ('"+str(
-                datetime) + "','"+str(listOFItem) + "','"+str(listOFAmount) + "')")
-            connection.commit()
+        data = json.loads(listOFItem)
+        for d in data:
+            with connection.cursor() as cursor_1:
+                cursor_1.execute("INSERT INTO dailysheetkhoroch_table(date,item,amount,status,type) VALUES ('"+str(d["date"]) + "','" +str(d["item"]) + "','"+str(d["amount"]) + "','"+str(d["status"]) + "','"+str(type) + "')")
+                connection.commit()
+        
+            with connection.cursor() as cursor_2:
+                cursor_2.execute("select date, khatiyanName,joma, khoroch, balance from khatiyan_full where khatiyanName='" +str(d["item"]) + "' order by date desc limit 1")
+                row1 = cursor_2.fetchone()
+            balance = row1[4]
+            balance -= int(d["amount"])
+            joma = 0
+            with connection.cursor() as cursor_3:
+                cursor_3.execute("INSERT INTO khatiyan_full(date,khatiyanName,joma,khoroch,balance) VALUES ('"+str(d["date"]) + "','" +str(d["item"]) + "','"+str(joma) + "','"+str(d["amount"]) + "','"+str(balance) + "')")
+                connection.commit()
+        
         
         
     return HttpResponse("Hello, world. You're at the polls index.")
@@ -42,7 +67,7 @@ def dailysheetJomaKhorochList(request):
     if request.method == 'GET':
         with connection.cursor() as cursor_1:
             cursor_1.execute(
-                "select date, item from dailysheetjoma_table group by date")
+                "select date, item from dailysheet_table group by date")
             row1 = cursor_1.fetchall()
             result = []
             keys = ('date', 'item')
@@ -55,10 +80,10 @@ def dailysheetJomaKhorochList(request):
 def getJomaDataList(request):
     if request.method == 'POST':
         date = request.POST.get("date", False)
-        
+        type="joma"
         with connection.cursor() as cursor_1:
             cursor_1.execute(
-                "select item, amount from dailysheetjoma_table where date='"+str(date)+"'")
+                "select item, amount from dailysheet_table where date='"+str(date)+"' and type='"+str(type)+"'")
             row1 = cursor_1.fetchall()
             result = []
             keys = ('item','amount')
@@ -72,9 +97,10 @@ def getJomaDataList(request):
 def getKhorochDataList(request):
     if request.method == 'POST':
         date = request.POST.get("date", False)
+        type="khoroch"
         with connection.cursor() as cursor_1:
             cursor_1.execute(
-                "select item, amount from dailysheetkhoroch_table where date='"+str(date)+"'")
+                "select item, amount from dailysheetkhoroch_table where date='"+str(date)+"' and type='"+str(type)+"'")
             row1 = cursor_1.fetchall()
             result = []
             keys = ('item','amount')

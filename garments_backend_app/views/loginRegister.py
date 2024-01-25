@@ -50,18 +50,17 @@ def registerUser(request):
         phone = request.POST.get("phone", False)
         nid = request.POST.get("nid", False)
         password = request.POST.get("password", False)
-        fathersName = request.POST.get("fathersName", False)
-        mothersName = request.POST.get("mothersName", False)
+        Date = request.POST.get("date", False)
         salary = request.POST.get("salary", False)
         type = request.POST.get("type", False)
-        Date = str(date.today())
+      
         Joma = 0
         Khoroch = 0
         Balance = 0
 
         with connection.cursor() as cursor_1:
-            cursor_1.execute("INSERT INTO user_table(Name,NID,Phone,Address,Password,Fathers_Name,Mothers_Name,Salary,Type) VALUES ('"+str(
-                name) + "' ,'"+str(nid) + "','"+str(phone) + "','"+str(address) + "','"+str(password) + "','"+str(fathersName) + "','"+str(mothersName) + "','"+str(salary) + "','"+str(type) + "')")
+            cursor_1.execute("INSERT INTO user_table(Name,NID,Phone,Address,Password,Salary,Type) VALUES ('"+str(
+                name) + "' ,'"+str(nid) + "','"+str(phone) + "','"+str(address) + "','"+str(password) +"','" +str(salary) + "','"+str(type) + "')")
             connection.commit()
 
         with connection.cursor() as cursor_2:
