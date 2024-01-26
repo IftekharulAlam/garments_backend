@@ -18,7 +18,7 @@ def getPartyKhatiyanDetails(request):
                 "select date, billNo, Joma, Khoroch, Balance from khatiyan_party WHERE shopName='"+str(shopName)+"'")
             row1 = cursor_1.fetchall()
             result = []
-            keys = ('Date', 'billNo', 'Joma', 'Khoroch', 'Balance')
+            keys = ("date", "billNo", "joma", "khoroch", "balance")
             for row in row1:
                 result.append(dict(zip(keys, row)))
             json_data = json.dumps(result)
@@ -35,8 +35,9 @@ def createParty(request):
         ownerAddress = request.POST.get("ownerAddress", False)
         shopAddress = request.POST.get("shopAddress", False)
         shopPhone = request.POST.get("shopPhone", False)
+        Date = request.POST.get("datetime", False)
 
-        Date = str(date.today())
+    
         Joma = 0
         Khoroch = 0
         Balance = 0
