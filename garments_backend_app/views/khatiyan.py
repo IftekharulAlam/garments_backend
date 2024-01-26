@@ -48,12 +48,13 @@ def getKhatiyanDetails(request):
         khatiyanName = request.POST.get("khatiyanName", False)
         with connection.cursor() as cursor_1:
             cursor_1.execute(
-                "select date, joma, khoroch, balacne from khatiyan_full WHERE khatiyanName='"+str(khatiyanName)+"'")
+                "select date, joma, khoroch, balance from khatiyan_full WHERE khatiyanName='"+str(khatiyanName)+"'")
             row1 = cursor_1.fetchall()
             result = []
-            keys = ('date', 'joma', 'khoroch', 'balance')
+            keys = ("date", "joma", "khoroch", "balance")
             for row in row1:
                 result.append(dict(zip(keys, row)))
             json_data = json.dumps(result)
+           
 
             return HttpResponse(json_data, content_type="application/json")

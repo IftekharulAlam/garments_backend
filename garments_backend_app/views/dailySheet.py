@@ -22,7 +22,7 @@ def createDailysheetJoma(request):
                 connection.commit()
         
             with connection.cursor() as cursor_2:
-                cursor_2.execute("select date, khatiyanName,joma, khoroch, balance from khatiyan_full where khatiyanName='" +str(d["item"]) + "' order by date desc limit 1")
+                cursor_2.execute("select date, khatiyanName,joma, khoroch, balance from khatiyan_full where khatiyanName='" +str(d["item"]) + "' order by serial desc limit 1")
                 row1 = cursor_2.fetchone()
             balance = row1[4]
             balance += int(d["amount"])
@@ -44,7 +44,7 @@ def createDailysheetKhoroch(request):
         data = json.loads(listOFItem)
         for d in data:
             with connection.cursor() as cursor_1:
-                cursor_1.execute("INSERT INTO dailysheetkhoroch_table(date,item,amount,status,type) VALUES ('"+str(d["date"]) + "','" +str(d["item"]) + "','"+str(d["amount"]) + "','"+str(d["status"]) + "','"+str(type) + "')")
+                cursor_1.execute("INSERT INTO dailysheet_table(date,item,amount,status,type) VALUES ('"+str(d["date"]) + "','" +str(d["item"]) + "','"+str(d["amount"]) + "','"+str(d["status"]) + "','"+str(type) + "')")
                 connection.commit()
         
             with connection.cursor() as cursor_2:
@@ -100,7 +100,7 @@ def getKhorochDataList(request):
         type="khoroch"
         with connection.cursor() as cursor_1:
             cursor_1.execute(
-                "select item, amount from dailysheetkhoroch_table where date='"+str(date)+"' and type='"+str(type)+"'")
+                "select item, amount from dailysheet_table where date='"+str(date)+"' and type='"+str(type)+"'")
             row1 = cursor_1.fetchall()
             result = []
             keys = ('item','amount')
