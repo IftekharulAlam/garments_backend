@@ -57,6 +57,8 @@ def registerUser(request):
         Joma = 0
         Khoroch = 0
         Balance = 0
+        Details = 0
+        type = "Staff"
 
         with connection.cursor() as cursor_1:
             cursor_1.execute("INSERT INTO user_table(Name,NID,Phone,Address,Password,Salary,Type) VALUES ('"+str(
@@ -64,8 +66,8 @@ def registerUser(request):
             connection.commit()
 
         with connection.cursor() as cursor_2:
-            cursor_2.execute("INSERT INTO khatiyan_staff(staffName,Date,Joma,Khoroch,Balance) VALUES ('"+str(
-                name) + "' ,'"+str(Date) + "','"+str(Joma) + "','"+str(Khoroch) + "','"+str(Balance) + "')")
+            cursor_2.execute("INSERT INTO khatiyan_full(Date,khatiyanName,details,joma,khoroch,balance,type) VALUES ('"+str(
+                Date) + "','"+str(name) +"','"+str(Details) + "','"+str(Joma) + "','"+str(Khoroch) + "','"+str(Balance) + "','"+str(type) + "')")
             connection.commit()
 
     return HttpResponse("Hello, world. You're at the polls index.")

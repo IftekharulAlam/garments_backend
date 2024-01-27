@@ -14,11 +14,11 @@ def getPartyList(request):
     if request.method == 'GET':
         with connection.cursor() as cursor_1:
             cursor_1.execute(
-                "select ownerName, shopName, ownerPhone, ownerAddress, shopAddress, shopPhone from party_profile")
+                "select ownerName, shopName, ownerPhone,shopAddress, shopPhone from party_profile")
             row1 = cursor_1.fetchall()
             result = []
             keys = ('ownerName', 'shopName',
-                    'ownerPhone', 'ownerAddress', 'shopAddress', 'shopPhone')
+                    'ownerPhone','shopAddress', 'shopPhone')
             for row in row1:
                 result.append(dict(zip(keys, row)))
             json_data = json.dumps(result)

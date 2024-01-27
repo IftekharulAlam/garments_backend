@@ -43,11 +43,10 @@ def getKhatiyanDetailsStaff(request):
     if request.method == 'POST':
         staffName = request.POST.get("staffName", False)
         with connection.cursor() as cursor_1:
-            cursor_1.execute(
-                "select khatiyan_staff_joma.Date, jomaAmount, khorochAmount, jomaAmount-khorochAmount as Balance from khatiyan_staff_joma inner join khatiyan_staff_khoroch on khatiyan_staff_joma.Name = khatiyan_staff_khoroch.Name WHERE Name='"+str(staffName)+"'")
+            cursor_1.execute("select date, details, joma, khoroch, balance from khatiyan_full WHERE khatiyanName='"+str(staffName)+"'")
             row1 = cursor_1.fetchall()
             result = []
-            keys = ('Date', 'Joma', 'Khoroch','Balance')
+            keys = ('date','details', 'joma', 'khoroch','balance')
             for row in row1:
                 result.append(dict(zip(keys, row)))
             json_data = json.dumps(result)
@@ -60,11 +59,11 @@ def getProfileDetailsStaff(request):
         staffName = request.POST.get("staffName", False)
         with connection.cursor() as cursor_1:
             cursor_1.execute(
-                "select Name, NID, Phone, Address, Fathers_Name, Mothers_Name, Salary, Type from user_table WHERE Name='"+str(staffName)+"'")
+                "select Name, NID, Phone, Address, Salary, Type from user_table WHERE Name='"+str(staffName)+"'")
             row1 = cursor_1.fetchone()
             result = []
             keys = ('Name', 'NID', 'Phone', 'Address',
-                    'Fathes_Name', 'Mothers_Name', 'Salary', 'Type')
+                    'Salary', 'Type')
             result.append(dict(zip(keys, row1)))
             json_data = json.dumps(result)
 
