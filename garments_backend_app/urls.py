@@ -10,6 +10,7 @@ urlpatterns = [
     path('createKhatiyan', khatiyan.createKhatiyan, name='createKhatiyan'),
 
     path('getKhatiyanList', khatiyan.getKhatiyanList, name='getKhatiyanList'),
+    path('getKhatiyanListAll', khatiyan.getKhatiyanListAll, name='getKhatiyanListAll'),
     path('getKhatiyanDetails', khatiyan.getKhatiyanDetails, name='getKhatiyanDetails'),
 
 

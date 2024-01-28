@@ -30,12 +30,27 @@ def createKhatiyan(request):
 @csrf_exempt
 def getKhatiyanList(request):
     if request.method == 'GET':
+        type="Office"
         with connection.cursor() as cursor_1:
             cursor_1.execute(
-                "select date, khatiyanName from khatiyan_full group by khatiyanName")
+                "select date, khatiyanName from khatiyan_full where type='"+str(type)+"' group by khatiyanName ")
             row1 = cursor_1.fetchall()
             result = []
             keys = ('date', 'khatiyanName')
+            for row in row1:
+                result.append(dict(zip(keys, row)))
+            json_data = json.dumps(result)
+            return HttpResponse(json_data, content_type="application/json")
+        
+@csrf_exempt
+def getKhatiyanListAll(request):
+    if request.method == 'GET':
+        with connection.cursor() as cursor_1:
+            cursor_1.execute(
+                "select date, khatiyanName,type from khatiyan_full group by khatiyanName")
+            row1 = cursor_1.fetchall()
+            result = []
+            keys = ('date', 'khatiyanName','type')
             for row in row1:
                 result.append(dict(zip(keys, row)))
             json_data = json.dumps(result)

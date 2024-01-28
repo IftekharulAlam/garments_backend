@@ -15,10 +15,11 @@ def createDailysheetJoma(request):
     if request.method == 'POST':
         listOFItem = request.POST.get("listOFItem", False)
         data = json.loads(listOFItem)
-        type="joma"
+        typoe="joma"
+        print(data)
         for d in data:
             with connection.cursor() as cursor_1:
-                cursor_1.execute("INSERT INTO dailysheet_table(date,item,amount,status,type) VALUES ('"+str(d["date"]) + "','" +str(d["item"]) + "','"+str(d["amount"]) + "','"+str(d["status"]) + "','"+str(type) + "')")
+                cursor_1.execute("INSERT INTO dailysheet_table(date,item,amount,status,type) VALUES ('"+str(d["date"]) + "','"+str(d["item"]) + "','"+str(d["amount"]) + "','"+str(d["status"]) + "','"+str(typoe) + "')")
                 connection.commit()
         
             with connection.cursor() as cursor_2:
@@ -28,7 +29,7 @@ def createDailysheetJoma(request):
             balance += int(d["amount"])
             khoroch = 0
             with connection.cursor() as cursor_3:
-                cursor_3.execute("INSERT INTO khatiyan_full(date,khatiyanName,joma,khoroch,balance) VALUES ('"+str(d["date"]) + "','" +str(d["item"]) + "','"+str(d["amount"]) + "','"+str(khoroch) + "','"+str(balance) + "')")
+                cursor_3.execute("INSERT INTO khatiyan_full(date,khatiyanName,details,joma,khoroch,balance,type) VALUES ('"+str(d["date"]) + "','" +str(d["item"]) + "','" +str(d["details"]) + "','"+str(d["amount"]) + "','"+str(khoroch) + "','"+str(balance) + "','"+str(d["type"]) + "')")
                 connection.commit()
          
 
@@ -39,12 +40,12 @@ def createDailysheetJoma(request):
 def createDailysheetKhoroch(request):
     if request.method == 'POST':
 
-        type="khoroch"
+        typoe="khoroch"
         listOFItem = request.POST.get("listOFItem", False)
         data = json.loads(listOFItem)
         for d in data:
             with connection.cursor() as cursor_1:
-                cursor_1.execute("INSERT INTO dailysheet_table(date,item,amount,status,type) VALUES ('"+str(d["date"]) + "','" +str(d["item"]) + "','"+str(d["amount"]) + "','"+str(d["status"]) + "','"+str(type) + "')")
+                cursor_1.execute("INSERT INTO dailysheet_table(date,item,amount,status,type) VALUES ('"+str(d["date"]) + "','" +str(d["item"]) + "','"+str(d["amount"]) + "','"+str(d["status"]) + "','"+str(typoe) + "')")
                 connection.commit()
         
             with connection.cursor() as cursor_2:
@@ -54,7 +55,7 @@ def createDailysheetKhoroch(request):
             balance -= int(d["amount"])
             joma = 0
             with connection.cursor() as cursor_3:
-                cursor_3.execute("INSERT INTO khatiyan_full(date,khatiyanName,joma,khoroch,balance) VALUES ('"+str(d["date"]) + "','" +str(d["item"]) + "','"+str(joma) + "','"+str(d["amount"]) + "','"+str(balance) + "')")
+                cursor_3.execute("INSERT INTO khatiyan_full(date,khatiyanName,details,joma,khoroch,balance,type) VALUES ('"+str(d["date"]) + "','" +str(d["item"]) + "','" +str(d["details"]) + "','"+str(joma) + "','"+str(d["amount"]) + "','"+str(balance) + "','"+str(d["type"]) + "')")
                 connection.commit()
         
         

@@ -32,24 +32,30 @@ def addProduct(request):
         productionDate = request.POST.get("productionDate", False)
         productSize = request.POST.get("productSize", False)
         productQuantity = request.POST.get("productQuantity", False)
+        billNo = 0
+        partyName = 0
+        soldQuantity = 0
+       
 
         with connection.cursor() as cursor_1:
-            cursor_1.execute("INSERT INTO product_stock(productModelNo,productionDate,productSize,productQuantity) VALUES ('"+str(
-                productModelNo) + "','"+str(productionDate) + "','"+str(productSize) + "','"+str(productQuantity) + "')")
+            cursor_1.execute("select date, productModelNo,productSize,joma,total from product_register where productModelNo='" +str(productModelNo) + "' and productSize='" +str(productSize) + "' order by serial desc limit 1")
+            row1 = cursor_1.fetchone()
+            
+        if row1 == None:
+            with connection.cursor() as cursor_1:
+                cursor_1.execute("INSERT INTO product_register(date,productModelNo,productSize,joma,total,billNo,partyName,soldQuantity,balance) VALUES ('"+str(productionDate) + "','"+str(productModelNo) + "','"+str(productSize) + "','"+str(productQuantity) + "','"+str(productQuantity) + "','"+str(billNo) + "','"+str(partyName) + "','"+str(soldQuantity) + "','"+str(productQuantity) + "')")
+            connection.commit()
+        else:
+            currentTotal = row1[4]
+            currentTotal += int(productQuantity) 
+            with connection.cursor() as cursor_1:
+                cursor_1.execute("INSERT INTO product_register(date,productModelNo,productSize,joma,total,billNo,partyName,soldQuantity,balance) VALUES ('"+str(productionDate) + "','"+str(productModelNo) + "','"+str(productSize) + "','"+str(productQuantity) + "','"+str(currentTotal) + "','"+str(billNo) + "','"+str(partyName) + "','"+str(soldQuantity) + "','"+str(currentTotal) + "')")
             connection.commit()
 
-        with connection.cursor() as cursor_2:
-            cursor_2.execute("delete from product_available_table")
-            connection.commit()
-
-        with connection.cursor() as cursor_3:
-            cursor_3.execute("INSERT INTO product_available_table SELECT product_table.productModelNo, productSize, sum(product_stock.productQuantity) as productAvailable, productRate from product_table inner join product_stock on product_table.productModelNo = product_stock.productModelNo group by productSize, productModelNo")
-            connection.commit()
-        
 
     return HttpResponse("Hello, world. You're at the polls index.")
 
-#  productModelNo, productDetails, productRate, productAvailable
+
 @csrf_exempt
 def getProductsList(request):
     if request.method == 'GET':
@@ -104,7 +110,7 @@ def getProductProductionDetails(request):
     if request.method == 'POST':
         with connection.cursor() as cursor_1:
             cursor_1.execute(
-                "select productionDate, productSize, productQuantity from product_stock where productModelNo='"+str(productModelNo)+"'")
+                "select date, productSize, total from product_register where productModelNo='"+str(productModelNo)+"'")
             row1 = cursor_1.fetchall()
             result = []
             keys = ('productionDate', 'productSize', 'productQuantity')
