@@ -76,14 +76,22 @@ def getProductsAvailableList(request):
     if request.method == 'GET':
         with connection.cursor() as cursor_1:
             cursor_1.execute(
-                "select productModelNo, productSize, productAvailable, productRate from product_available_table")
+                "select productModelNo, productSize,productRate from product_register group by productSize")
             row1 = cursor_1.fetchall()
+            alldata=()
+            for d in row1:
+                with connection.cursor() as cursor_1:
+                    cursor_1.execute("select productModelNo, productSize, total, productRate from product_register where productModelNo='"+str(d[0])+"' and productSize='"+str(d[1])+"' order by serial desc limit 1")
+                    row2 = cursor_1.fetchall()
+                    alldata+=row2
+                
             result = []
-            keys = ('productModelNo','productSize','productAvailable',
-                    'productRate')
-            for row in row1:
+            keys = ('productModelNo','productSize','productAvailable','productRate')
+            for row in alldata:
                 result.append(dict(zip(keys, row)))
             json_data = json.dumps(result)
+            
+        
             return HttpResponse(json_data, content_type="application/json")
 
 
@@ -110,7 +118,7 @@ def getProductProductionDetails(request):
     if request.method == 'POST':
         with connection.cursor() as cursor_1:
             cursor_1.execute(
-                "select date, productSize, total from product_register where productModelNo='"+str(productModelNo)+"'")
+                "select date, productSize, joma from product_register where productModelNo='"+str(productModelNo)+"'")
             row1 = cursor_1.fetchall()
             result = []
             keys = ('productionDate', 'productSize', 'productQuantity')

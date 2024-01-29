@@ -49,7 +49,7 @@ def createDailysheetKhoroch(request):
                 connection.commit()
         
             with connection.cursor() as cursor_2:
-                cursor_2.execute("select date, khatiyanName,joma, khoroch, balance from khatiyan_full where khatiyanName='" +str(d["item"]) + "' order by date desc limit 1")
+                cursor_2.execute("select date, khatiyanName,joma, khoroch, balance from khatiyan_full where khatiyanName='" +str(d["item"]) + "' order by serial desc limit 1")
                 row1 = cursor_2.fetchone()
             balance = row1[4]
             balance -= int(d["amount"])
@@ -84,10 +84,10 @@ def getJomaDataList(request):
         type="joma"
         with connection.cursor() as cursor_1:
             cursor_1.execute(
-                "select item, amount from dailysheet_table where date='"+str(date)+"' and type='"+str(type)+"'")
+                "select item, amount, date, status, type from dailysheet_table where date='"+str(date)+"' and type='"+str(type)+"'")
             row1 = cursor_1.fetchall()
             result = []
-            keys = ('item','amount')
+            keys = ('item','amount', 'date', 'status', 'type')
             for row in row1:
                 result.append(dict(zip(keys, row)))
             json_data = json.dumps(result)
@@ -101,10 +101,10 @@ def getKhorochDataList(request):
         type="khoroch"
         with connection.cursor() as cursor_1:
             cursor_1.execute(
-                "select item, amount from dailysheet_table where date='"+str(date)+"' and type='"+str(type)+"'")
+                "select item, amount, date, status, type from dailysheet_table where date='"+str(date)+"' and type='"+str(type)+"'")
             row1 = cursor_1.fetchall()
             result = []
-            keys = ('item','amount')
+            keys = ('item','amount', 'date', 'status', 'type')
             for row in row1:
                 result.append(dict(zip(keys, row)))
             json_data = json.dumps(result)
