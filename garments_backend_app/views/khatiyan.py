@@ -16,13 +16,13 @@ def createKhatiyan(request):
     Joma = 0
     Khoroch = 0
     balance = 0
+    details="Nogod"
+    type="Office"
     if request.method == 'POST':
-       
         khatiyanName = request.POST.get("khatiyanName", False)
         date = request.POST.get("date", False)
         with connection.cursor() as cursor_1:
-            cursor_1.execute("INSERT INTO khatiyan_full(date,khatiyanName,joma,khoroch, balance) VALUES ('"+str(
-                date) + "','"+str(khatiyanName) + "','"+str(Joma) + "','"+str(Khoroch) + "','"+str(balance) + "')")
+            cursor_1.execute("INSERT INTO khatiyan_full(date,khatiyanName,details,joma,khoroch, balance,type) VALUES ('"+str(date) + "','"+str(khatiyanName) +"','"+str(details) + "','"+str(Joma) + "','"+str(Khoroch) + "','"+str(balance) + "','"+str(type)+"')")
             connection.commit()
     return HttpResponse("Hello, world. You're at the polls index.")
 
