@@ -32,6 +32,7 @@ def addProduct(request):
         productionDate = request.POST.get("productionDate", False)
         productSize = request.POST.get("productSize", False)
         productQuantity = request.POST.get("productQuantity", False)
+        productRate = request.POST.get("productRate", False)
         billNo = 0
         partyName = 0
         soldQuantity = 0
@@ -43,13 +44,13 @@ def addProduct(request):
             
         if row1 == None:
             with connection.cursor() as cursor_1:
-                cursor_1.execute("INSERT INTO product_register(date,productModelNo,productSize,joma,total,billNo,partyName,soldQuantity,balance) VALUES ('"+str(productionDate) + "','"+str(productModelNo) + "','"+str(productSize) + "','"+str(productQuantity) + "','"+str(productQuantity) + "','"+str(billNo) + "','"+str(partyName) + "','"+str(soldQuantity) + "','"+str(productQuantity) + "')")
+                cursor_1.execute("INSERT INTO product_register(date,productModelNo,productSize,productRate,joma,total,billNo,partyName,soldQuantity,balance) VALUES ('"+str(productionDate) + "','"+str(productModelNo) + "','"+str(productSize) + "','"+str(productRate) + "','"+str(productQuantity) + "','"+str(productQuantity) + "','"+str(billNo) + "','"+str(partyName) + "','"+str(soldQuantity) + "','"+str(productQuantity) + "')")
             connection.commit()
         else:
             currentTotal = row1[4]
             currentTotal += int(productQuantity) 
             with connection.cursor() as cursor_1:
-                cursor_1.execute("INSERT INTO product_register(date,productModelNo,productSize,joma,total,billNo,partyName,soldQuantity,balance) VALUES ('"+str(productionDate) + "','"+str(productModelNo) + "','"+str(productSize) + "','"+str(productQuantity) + "','"+str(currentTotal) + "','"+str(billNo) + "','"+str(partyName) + "','"+str(soldQuantity) + "','"+str(currentTotal) + "')")
+                cursor_1.execute("INSERT INTO product_register(date,productModelNo,productSize,productRate,joma,total,billNo,partyName,soldQuantity,balance) VALUES ('"+str(productionDate) + "','"+str(productModelNo) + "','"+str(productSize) + "','"+str(productRate) + "','"+str(productQuantity) + "','"+str(currentTotal) + "','"+str(billNo) + "','"+str(partyName) + "','"+str(soldQuantity) + "','"+str(currentTotal) + "')")
             connection.commit()
 
 
