@@ -8,20 +8,30 @@ import json
 # Create your views here.
 from django.http import HttpResponse, JsonResponse
 from datetime import date
-
+import os
+from django.conf import settings
+from PIL import Image  
+from django.conf import settings as django_settings
 
 @csrf_exempt
 def createProduct(request):
-
     if request.method == 'POST':
         productModelNo = request.POST.get("productModelNo", False)
         productDetails = request.POST.get("productDetails", False)
         productRate = request.POST.get("productRate", False)
+        image = request.FILES.get('image', False)
+        myimage1 = Image.open(image)
+      
+        fileName = str(productModelNo)+".jpg"
+        print(django_settings.MEDIA_URL)
+        savePath = os.path.join(django_settings.MEDIA_ROOT,fileName)
+        myimage1.save(savePath)
 
-        with connection.cursor() as cursor_1:
-            cursor_1.execute("INSERT INTO product_table(productModelNo,productDetails,productRate) VALUES ('"+str(
-                productModelNo) + "','"+str(productDetails) + "','" + str(productRate) + "')")
-            connection.commit()
+
+        # with connection.cursor() as cursor_1:
+        #     cursor_1.execute("INSERT INTO product_table(productModelNo,productDetails,productRate) VALUES ('"+str(
+        #         productModelNo) + "','"+str(productDetails) + "','" + str(productRate) + "')")
+        #     connection.commit()
     return HttpResponse("Hello, world. You're at the polls index.")
 
 
