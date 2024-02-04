@@ -26,12 +26,13 @@ def createProduct(request):
         print(django_settings.MEDIA_URL)
         savePath = os.path.join(django_settings.MEDIA_ROOT,fileName)
         myimage1.save(savePath)
+        imagePath = "http://192.168.0.100:8000/media/"+str(fileName)
 
 
-        # with connection.cursor() as cursor_1:
-        #     cursor_1.execute("INSERT INTO product_table(productModelNo,productDetails,productRate) VALUES ('"+str(
-        #         productModelNo) + "','"+str(productDetails) + "','" + str(productRate) + "')")
-        #     connection.commit()
+        with connection.cursor() as cursor_1:
+            cursor_1.execute("INSERT INTO product_table(productModelNo,imagePath,productDetails,productRate) VALUES ('"+str(
+                productModelNo) + "','"+str(imagePath)+ "','"+str(productDetails) + "','" + str(productRate) + "')")
+            connection.commit()
     return HttpResponse("Hello, world. You're at the polls index.")
 
 
