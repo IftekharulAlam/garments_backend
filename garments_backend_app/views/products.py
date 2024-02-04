@@ -73,10 +73,10 @@ def getProductsList(request):
     if request.method == 'GET':
         with connection.cursor() as cursor_1:
             cursor_1.execute(
-                "select productModelNo, productDetails, productRate from product_table")
+                "select productModelNo,imagePath, productDetails, productRate from product_table")
             row1 = cursor_1.fetchall()
             result = []
-            keys = ('productModelNo','productDetails',
+            keys = ('productModelNo','imagePath','productDetails',
                     'productRate')
             for row in row1:
                 result.append(dict(zip(keys, row)))
