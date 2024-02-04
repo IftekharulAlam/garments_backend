@@ -23,7 +23,7 @@ def createProduct(request):
         myimage1 = Image.open(image)
       
         fileName = str(productModelNo)+".jpg"
-        print(django_settings.MEDIA_URL)
+      
         savePath = os.path.join(django_settings.MEDIA_ROOT,fileName)
         myimage1.save(savePath)
         imagePath = "http://192.168.0.100:8000/media/"+str(fileName)
@@ -147,12 +147,13 @@ def getProductDetails(request):
     if request.method == 'POST':
         with connection.cursor() as cursor_1:
             cursor_1.execute(
-                "select productModelNo, productDetails, productRate from product_table where productModelNo='"+str(productModelNo)+"'")
+                "select productModelNo, imagePath, productDetails, productRate from product_table where productModelNo='"+str(productModelNo)+"'")
             row1 = cursor_1.fetchone()
             result = []
-            keys = ('productModelNo', 'productDetails',
+            keys = ('productModelNo', 'imagePath', 'productDetails',
                     'productRate')
             result.append(dict(zip(keys, row1)))
             json_data = json.dumps(result)
+           
 
             return HttpResponse(json_data, content_type="application/json")
