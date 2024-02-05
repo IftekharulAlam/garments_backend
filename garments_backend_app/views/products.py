@@ -7,7 +7,7 @@ import json
 
 # Create your views here.
 from django.http import HttpResponse, JsonResponse
-from datetime import date
+
 import os
 from django.conf import settings
 from PIL import Image  

@@ -31,8 +31,6 @@ def createDailysheetJoma(request):
             with connection.cursor() as cursor_3:
                 cursor_3.execute("INSERT INTO khatiyan_full(date,khatiyanName,details,joma,khoroch,balance,type) VALUES ('"+str(d["date"]) + "','" +str(d["item"]) + "','" +str(d["details"]) + "','"+str(d["amount"]) + "','"+str(khoroch) + "','"+str(balance) + "','"+str(d["type"]) + "')")
                 connection.commit()
-         
-
     return HttpResponse("Hello, world. You're at the polls index.")
 
 
@@ -86,9 +84,33 @@ def getJomaDataList(request):
             cursor_1.execute(
                 "select item, amount, date, status, type from dailysheet_table where date='"+str(date)+"' and type='"+str(type)+"'")
             row1 = cursor_1.fetchall()
-            result = []
-            keys = ('item','amount', 'date', 'status', 'type')
+        with connection.cursor() as cursor_2:
+            cursor_2.execute(
+                "select item, amount, date, status, type from dailysheet_table where date='"+str(date)+"' and type='"+str("khoroch")+"' and item='"+str("DailySheet")+"'")
+            row2 = cursor_2.fetchone()
+            list3 = list(row2)
+            print(list3)
+            list3[0] ="Khoroch" 
+            row2 = tuple(list3)
+         
+            totalJoma=0
             for row in row1:
+                if row[0] == "DailySheet":
+                    totalJoma = row[1]
+            totalKhoroch = row2[1]
+            totalAmount = totalJoma - totalKhoroch
+            mytuple = ("Balance",totalAmount,row2[2],row2[3],row2[4])
+            row3 = row1
+            list1 = list(row3)
+            list1.append(row2)
+            list1.append(mytuple)
+           
+            resulttuple = tuple(list1)
+
+            result = []
+
+            keys = ('item','amount', 'date', 'status', 'type')
+            for row in resulttuple:
                 result.append(dict(zip(keys, row)))
             json_data = json.dumps(result)
            

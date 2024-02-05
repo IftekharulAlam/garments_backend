@@ -33,10 +33,10 @@ def getKhatiyanList(request):
         type="Office"
         with connection.cursor() as cursor_1:
             cursor_1.execute(
-                "select date, khatiyanName from khatiyan_full where type='"+str(type)+"' group by khatiyanName ")
+                "select khatiyanName,type from khatiyan_full where type='"+str(type)+"' group by khatiyanName ")
             row1 = cursor_1.fetchall()
             result = []
-            keys = ('date', 'khatiyanName')
+            keys = ('khatiyanName','type')
             for row in row1:
                 result.append(dict(zip(keys, row)))
             json_data = json.dumps(result)

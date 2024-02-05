@@ -17,7 +17,7 @@ def createBill(request):
         partyName = data["shopName"]
         totalAmount = data["totalAmount"]
         date = data["date"]
-        print(data)
+     
         for d in data["mybillProductsData"]:
             
             productModelNo = d["productModelNo"]
@@ -27,7 +27,7 @@ def createBill(request):
            
             joma=0
             billNo=data["billNo"]
-            print(d["productModelNo"])
+         
             with connection.cursor() as cursor_1:
                 cursor_1.execute("select total from product_register where productModelNo='" +str(productModelNo) + "' and productSize='" +str(productSize) + "' order by serial desc limit 1")
                 row1 = cursor_1.fetchone()
