@@ -44,8 +44,8 @@ urlpatterns = [
          name='createDailysheetJoma'),
     path('createDailysheetKhoroch', dailySheet.createDailysheetKhoroch,
          name='createDailysheetKhoroch'),
-    path('dailysheetJomaKhorochList', dailySheet.dailysheetJomaKhorochList,
-         name='dailysheetJomaKhorochList'),
+    path('dailysheetJomaKhorochList', dailySheet.dailysheetJomaKhorochList, name='dailysheetJomaKhorochList'),
+    path('getKhorochDataListForUpdate', dailySheet.getKhorochDataListForUpdate, name='getKhorochDataListForUpdate'),
          
     path('getJomaDataList', dailySheet.getJomaDataList,
          name='getJomaDataList'),
