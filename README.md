@@ -51,7 +51,7 @@ command to run if program contains helper info
 
 ## Authors
 
-Contributors names and contact info
+<!-- Contributors names and contact info -->
 
 ex. [Iftekharul Alam](https://www.linkedin.com/in/iftekharul-alam-9690a28a/)
 
